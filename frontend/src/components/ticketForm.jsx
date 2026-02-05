@@ -33,6 +33,30 @@ export default function TicketForm() {
               required
             />
           </div>
+          <div className="field">
+            <label>
+              Contact Person <span className="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              placeholder="First Name and Last Name"
+              value={project}
+              onChange={(e) => setProject(e.target.value)}
+              required
+            />
+          </div>
+          <div className="field">
+            <label>
+              Contact Email <span className="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              placeholder="contactperson@gmail.com"
+              value={project}
+              onChange={(e) => setProject(e.target.value)}
+              required
+            />
+          </div>
 
           <div className="field">
             <label>

@@ -1,15 +1,15 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-const Projects = sequelize.define("projects", {
+const Projects = sequelize.define("ticket", {
   id: {
     type: DataTypes.CHAR(36), // Use STRING(36) for UUID
     allowNull: false,
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  project_name: {
-    type: DataTypes.TEXT,
+  project_id: {
+    type: DataTypes.CHAR(36),
     allowNull: false,
   },
   remarks: {
