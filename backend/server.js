@@ -6,7 +6,7 @@ import { createServer } from "http";
 
 // Routers
 import projectRoute from "./routes/project.route.js";
-
+import ticketRoute from "./routes/tickets.route.js";
 // Seeders
 import { seedProjects } from "./seeds/project.seeds.js";
 
@@ -30,7 +30,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // Routes
 app.use("/projects", projectRoute);
-
+app.use("/tickets", ticketRoute);
 // Database + Server
 sequelize
   .authenticate()

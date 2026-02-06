@@ -1,6 +1,7 @@
 import Projects from "./projects.model.js";
+import Tickets from "./tickets.model.js";
 
-// P.hasMany(ActivityLog, { foreignKey: "user_id" });
-// ActivityLog.belongsTo(User, { foreignKey: "user_id" });
+Projects.hasMany(Tickets, { foreignKey: "project_id" });
+Tickets.belongsTo(Projects, { foreignKey: "project_id" });
 
-export { Projects };
+export { Projects, Tickets };

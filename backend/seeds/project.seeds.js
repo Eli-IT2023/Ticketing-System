@@ -16,6 +16,9 @@ export const seedProjects = async () => {
       {
         project_name: "Suntech Accounting Project",
       },
+      {
+        project_name: "Concord ERP Project",
+      },
     ];
 
     // Loop through and create each user if they don't exist

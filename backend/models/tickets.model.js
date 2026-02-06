@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-const Projects = sequelize.define("ticket", {
+const Tickets = sequelize.define("ticket", {
   id: {
     type: DataTypes.CHAR(36), // Use STRING(36) for UUID
     allowNull: false,
@@ -12,10 +12,42 @@ const Projects = sequelize.define("ticket", {
     type: DataTypes.CHAR(36),
     allowNull: false,
   },
-  remarks: {
+  reference_no: {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  contact_person: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  contact_email: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  image_attachment: {
+    type: DataTypes.BLOB("long"), // ✅ LONGBLOB
+    allowNull: true,
+  },
+
+  video_attachment: {
+    type: DataTypes.BLOB("long"), // ✅ LONGBLOB
+    allowNull: true,
+  },
+  status: {
+    type: DataTypes.ENUM(
+      "NEW",
+      "On Review",
+      "Support Will Contact You",
+      "In-progress",
+      "Closed"
+    ),
+    allowNull: false,
+    defaultValue: "NEW",
+  },
 });
 
-export default Projects;
+export default Tickets;

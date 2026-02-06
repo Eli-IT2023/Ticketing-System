@@ -53,17 +53,22 @@
 }
 
 .field input,
-.field textarea {
+.field textarea,
+.field select {
   padding: 11px 12px;
   font-size: 14px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
   outline: none;
+  background-color: #ffffff;
   transition: 0.15s;
+  appearance: none; /* 🔥 removes default browser styling */
 }
 
+/* Focus state */
 .field input:focus,
-.field textarea:focus {
+.field textarea:focus,
+.field select:focus {
   border-color: #7c3aed;
   box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
 }
@@ -96,4 +101,8 @@
 
 .actions button:hover {
   background: #6d28d9;
+}
+.actions button:disabled {
+  background: #c4b5fd;
+  cursor: not-allowed;
 }

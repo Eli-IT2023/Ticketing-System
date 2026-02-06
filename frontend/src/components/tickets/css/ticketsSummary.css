@@ -1,0 +1,120 @@
+.ticket-summary {
+  width: 100%;
+}
+
+/* Header */
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.summary-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.summary-header select {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background: #f9fafb;
+}
+
+th,
+td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+  font-weight: 500;
+  color: #374151;
+}
+
+td {
+  color: #1f2937;
+}
+
+.mono {
+  font-family: monospace;
+}
+
+/* Empty */
+.empty {
+  text-align: center;
+  padding: 24px;
+  color: #9ca3af;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Status colors */
+.status-badge.NEW {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.status-badge.ON_REVIEW {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge.SUPPORT_WILL_CONTACT {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.status-badge.IN_PROGRESS {
+  background: #dbeafe;
+  color: #353841;
+}
+
+.status-badge.CLOSED {
+  background: #dcfce7;
+  color: #166534;
+}
+.filters {
+  display: flex;
+  gap: 10px;
+}
+
+.filters input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  width: 220px;
+}
+
+.filters input:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
+}

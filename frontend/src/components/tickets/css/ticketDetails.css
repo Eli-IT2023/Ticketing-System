@@ -1,0 +1,16 @@
+.ticket-details-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.detail-section {
+  margin-top: 20px;
+}
+
+.detail-box {
+  background: #f9fafb;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 14px;
+}

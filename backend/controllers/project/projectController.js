@@ -1,4 +1,4 @@
-import { Projects } from "../models/associations.js";
+import { Projects } from "../../models/associations.js";
 
 // Create activity log for a user
 // export const createActivity = async (req, res) => {

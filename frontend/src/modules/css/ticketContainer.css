@@ -1,0 +1,49 @@
+.ticket-shell {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 40px;
+  background: #f7f7fb;
+}
+
+.ticket-card {
+  width: 100%;
+  max-width: 1020px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e6e6ef;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tab {
+  flex: 1;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  transition: 0.2s;
+}
+
+.tab:hover {
+  background: #f9fafb;
+}
+
+.tab.active {
+  color: #7c3aed;
+  border-bottom: 2px solid #7c3aed;
+  background: #ffffff;
+}
+
+/* Content */
+.tab-content {
+  padding: 24px;
+}
