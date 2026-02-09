@@ -75,31 +75,6 @@ td {
   text-transform: capitalize;
 }
 
-/* Status colors */
-.status-badge.NEW {
-  background: #e0e7ff;
-  color: #3730a3;
-}
-
-.status-badge.ON_REVIEW {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-.status-badge.SUPPORT_WILL_CONTACT {
-  background: #ede9fe;
-  color: #5b21b6;
-}
-
-.status-badge.IN_PROGRESS {
-  background: #dbeafe;
-  color: #353841;
-}
-
-.status-badge.CLOSED {
-  background: #dcfce7;
-  color: #166534;
-}
 .filters {
   display: flex;
   gap: 10px;

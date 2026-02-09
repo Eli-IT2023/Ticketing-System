@@ -65,9 +65,9 @@ export default function TicketViewDetails() {
 
       <div className="detail-section">
         <h5>Contact Person</h5>
-        <div className="detail-box">
-          {ticket.description || "No description provided."}
-        </div>
+        <div className="detail-box">{ticket.contact_person}</div>
+        <h5>Contact Email</h5>
+        <div className="detail-box"> {ticket.contact_email} </div>
         <h5>Description</h5>
         <div className="detail-box">
           {ticket.description || "No description provided."}

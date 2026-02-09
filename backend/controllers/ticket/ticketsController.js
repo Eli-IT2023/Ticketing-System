@@ -1,7 +1,8 @@
 import { Tickets } from "../../models/associations.js";
 import sequelize from "../../config/database.js";
 import { generateTicketReference } from "./utils/generateTicketRef.js";
-
+import { Op } from "sequelize";
+import { sendTicketCreatedEmail } from "../../utils/mailer.js";
 export const createTicket = async (req, res) => {
   const t = await sequelize.transaction();
 
@@ -27,6 +28,23 @@ export const createTicket = async (req, res) => {
       { transaction: t }
     );
 
+    // ✅ Register email AFTER COMMIT
+    t.afterCommit(async () => {
+      try {
+        await sendTicketCreatedEmail({
+          ticketId: ticket.id, // 🔑 REQUIRED for link
+          reference_no,
+          project_id,
+          contact_person,
+          contact_email,
+          description,
+        });
+      } catch (emailErr) {
+        console.error("Email failed AFTER commit:", emailErr);
+        // Optional: log to DB / retry queue
+      }
+    });
+
     await t.commit();
 
     res.status(200).json({
@@ -51,7 +69,7 @@ export const getAllTicketNoPicVidByID = async (req, res) => {
   try {
     const { selectedProjectId } = req.query;
 
-    console.log("selectedProjectId:", selectedProjectId);
+    // console.log("selectedProjectId:", selectedProjectId);
 
     if (!selectedProjectId) {
       return res.status(400).json({
@@ -60,7 +78,7 @@ export const getAllTicketNoPicVidByID = async (req, res) => {
     }
 
     const tickets = await Tickets.findAll({
-      where: { project_id: selectedProjectId },
+      where: { project_id: selectedProjectId, status: "NEW" },
       attributes: { exclude: ["image_attachment", "video_attachment"] },
     });
 
@@ -93,5 +111,52 @@ export const getTicketDetailsByIDWithVidPIC = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to retrieve ticket" });
+  }
+};
+
+export const getAllTicketNoPicVidByProj_SEARCH = async (req, res) => {
+  try {
+    const { selectedProjectId, searchTerm } = req.query;
+
+    const where = { project_id: selectedProjectId };
+
+    if (searchTerm) {
+      where[Op.or] = [
+        { reference_no: { [Op.like]: `%${searchTerm}%` } },
+        { contact_person: { [Op.like]: `%${searchTerm}%` } },
+        { contact_email: { [Op.like]: `%${searchTerm}%` } },
+      ];
+    }
+
+    const tickets = await Tickets.findAll({
+      where,
+      attributes: { exclude: ["image_attachment", "video_attachment"] },
+    });
+
+    res.status(200).json(tickets);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to retrieve tickets" });
+  }
+};
+
+export const getAllTicketNoPicVidByProj_FILTER = async (req, res) => {
+  try {
+    const { selectedProjectId, filteredStatus } = req.query;
+    const where = { project_id: selectedProjectId };
+
+    if (filteredStatus && filteredStatus !== "ALL") {
+      where.status = filteredStatus;
+    }
+
+    const tickets = await Tickets.findAll({
+      where,
+      attributes: { exclude: ["image_attachment", "video_attachment"] },
+    });
+
+    res.status(200).json(tickets);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to retrieve tickets" });
   }
 };

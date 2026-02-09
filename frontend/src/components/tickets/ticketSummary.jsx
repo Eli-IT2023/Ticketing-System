@@ -1,46 +1,74 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./css/ticketsSummary.css";
 import useGetAllTicketNoPicVidByID from "../../hooks/getAllTicketNoPicVidByID";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
+import { formatShortDate } from "../../helpers/formatShortDate";
+import api from "../../utils/axios";
 export default function TicketsSummary({ selectedProjectId }) {
   const { data: data } = useGetAllTicketNoPicVidByID(selectedProjectId);
+
   const STATUS_OPTIONS = [
     "ALL",
     "NEW",
-    "ON_REVIEW",
-    "SUPPORT_WILL_CONTACT",
-    "IN_PROGRESS",
+    "ON REVIEW",
+    "SUPPORT WILL CONTACT YOU",
+    "IN-PROGRESS",
     "CLOSED",
   ];
 
-  //   const MOCK_TICKETS = [
-  //     {
-  //       id: 1,
-  //       reference_no: "SBF-2025-02-00001",
-  //       project_name: "SBF Inventory",
-  //       status: "NEW",
-  //       created_at: "2025-02-06",
-  //     },
-  //     {
-  //       id: 2,
-  //       reference_no: "ACC-2025-02-00002",
-  //       project_name: "Accounting System",
-  //       status: "IN_PROGRESS",
-  //       created_at: "2025-02-05",
-  //     },
-  //     {
-  //       id: 3,
-  //       reference_no: "HR-2025-02-00003",
-  //       project_name: "HR Portal",
-  //       status: "CLOSED",
-  //       created_at: "2025-02-01",
-  //     },
-  //   ];
-
-  const [statusFilter, setStatusFilter] = useState("ALL");
+  const [statusFilter, setStatusFilter] = useState("NEW");
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [uiData, setUIData] = useState([]);
+
+  useEffect(() => {
+    setUIData(data);
+  }, [data]);
+
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    setStatusFilter("ALL");
+    const delay = setTimeout(() => {
+      api
+        .get("/tickets/getAllTicketNoPicVidByProj_SEARCH", {
+          params: {
+            selectedProjectId,
+            searchTerm: value,
+          },
+        })
+        .then((res) => {
+          setUIData(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }, 500);
+
+    return () => clearTimeout(delay);
+  };
+
+  const handleFilter = (value) => {
+    setStatusFilter(value);
+    setSearchTerm("");
+    const delay = setTimeout(() => {
+      api
+        .get("/tickets/getAllTicketNoPicVidByProj_FILTER", {
+          params: {
+            selectedProjectId,
+            filteredStatus: value,
+          },
+        })
+        .then((res) => {
+          setUIData(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }, 500);
+
+    return () => clearTimeout(delay);
+  };
 
   const navigate = useNavigate();
 
@@ -56,13 +84,13 @@ export default function TicketsSummary({ selectedProjectId }) {
             type="text"
             placeholder="Search reference or project..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
           />
 
           {/* Status filter */}
           <select
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
+            onChange={(e) => handleFilter(e.target.value)}
           >
             {STATUS_OPTIONS.map((status) => (
               <option key={status} value={status}>
@@ -88,24 +116,24 @@ export default function TicketsSummary({ selectedProjectId }) {
           </thead>
 
           <tbody>
-            {data.length === 0 ? (
+            {uiData.length === 0 ? (
               <tr>
-                <td colSpan="4" className="empty">
+                <td colSpan="6" className="empty">
                   No tickets found
                 </td>
               </tr>
             ) : (
-              data.map((ticket) => (
+              uiData.map((ticket) => (
                 <tr key={ticket.id}>
                   <td className="mono">{ticket.reference_no}</td>
                   <td>{ticket.contact_person}</td>
                   <td>{ticket.contact_email}</td>
                   <td>
                     <span className={`status-badge ${ticket.status}`}>
-                      {ticket.status.replaceAll("_", " ")}
+                      {ticket.status.toUpperCase()}
                     </span>
                   </td>
-                  <td>{ticket.createdAt}</td>
+                  <td>{formatShortDate(ticket.createdAt)}</td>
                   <td>
                     <Button
                       size="sm"

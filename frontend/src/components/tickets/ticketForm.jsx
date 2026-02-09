@@ -110,7 +110,7 @@ export default function TicketForm({ selectedProjectId }) {
           <div className="field">
             <label>Project Name</label>
             <select
-              disabled
+              // disabled
               className="bg-light "
               placeholder="e.g. Inventory Management System"
               value={tickets.project}
